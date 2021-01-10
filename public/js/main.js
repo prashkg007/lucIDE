@@ -29,5 +29,6 @@ socket.on('outputGenerated', ({codeOutput}) => {
     console.log(`Output of code: ${codeOutput}`);
     submitButton.disabled = false;
     const outputField = document.getElementById("output-field");
-    outputField.textContent = codeOutput;
+    // codeOutput = codeOutput.replace(/\n/g, '<br>');
+    outputField.innerHTML = codeOutput;
 });

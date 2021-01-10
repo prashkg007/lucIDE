@@ -6,7 +6,7 @@ const path = require('path');
 const {createDirectory, writeCodeToFile, readOutput, removeDirectory} = require('./helper')
 const {executeCode} = require('./DockerHandler');
 
-const PORT = 3000 || process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -15,11 +15,11 @@ io.on('connection', (socket) => {
     socket.on('codeSubmitted', async (data)=>{
         const fileName = 'newcode';
         createDirectory(fileName);
-        writeCodeToFile(fileName, data.codeContent, data.codeInput);
+        writeCodeToFile(fileName, data.codeContent  , data.codeInput);
         const containerOutput = await executeCode(fileName);
         const codeOutput = await readOutput(fileName);
         socket.emit('outputGenerated', {codeOutput: codeOutput});
-        // removeDirectory(fileName);
+        removeDirectory(fileName);
     });
 
     socket.on('disconnect', () => {
