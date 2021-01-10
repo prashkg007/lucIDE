@@ -2,19 +2,32 @@ const fs = require('fs');
 const path = require('path');
 
 const createDirectory = (directoryName) => {
-    fs.mkdir(path.join(__dirname, `${directoryName}`), (err)=>{
+    fs.mkdirSync(path.join(__dirname, `${directoryName}`));
+};
+
+const writeCodeToFile = (directoryName, codeContent, codeInput) => {
+    fs.writeFileSync(path.join(__dirname, `${directoryName}`, `main.cpp`), codeContent);
+    fs.writeFileSync(path.join(__dirname, `${directoryName}`, `input.txt`), codeInput);
+};
+
+const readOutput = (directoryName) => {
+    const outputFilePath = path.join(__dirname, `${directoryName}`, `output.txt`);
+    return new Promise((resolve, reject) => {
+        fs.readFile(outputFilePath, (err, data) => {
+            if(err)
+                reject(err);
+            console.log('data');
+            resolve(data.toString());
+        });
+    })
+};
+
+const removeDirectory = (directoryName) => {
+    fs.rmdir(path.join(__dirname, `${directoryName}`), {recursive: true}, (err) => {
         if(err){
-            console.log(`Error creating director for new code: ${err}`);
+            console.log(`Error removing directory: ${directoryName}`);
         }
-    })
+    });
 };
 
-const writeCodeToFile = (directoryName, codeContent) => {
-    fs.writeFile(path.join(__dirname, `${directoryName}`, `${directoryName}.cpp`), codeContent, (err) => {
-        if(err)
-            console.log('something happened');
-        console.log('code file created successfully');
-    })
-};
-
-module.exports = {createDirectory, writeCodeToFile};
+module.exports = {createDirectory, writeCodeToFile, readOutput, removeDirectory};

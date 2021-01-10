@@ -3,11 +3,12 @@ const path = require('path');
 
 const docker = new Docker();
 
-const executeCode = (folderName) => {
+const executeCode = async (folderName) => {
     const buffer = Buffer.alloc(1024);
-    docker.run(
+
+    const containerOutput = await docker.run(
         'frolvlad/alpine-gxx',
-        ['/bin/sh','-c',`cd ${folderName}; g++ ${folderName}.cpp -o main; ./main > output.txt; rm main`],
+        ['/bin/sh','-c',`cd ${folderName}; g++ main.cpp -o main >& output.txt; ./main < input.txt >> output.txt`],
         process.stdout,
         {
             HostConfig:{
@@ -15,10 +16,10 @@ const executeCode = (folderName) => {
                 AutoRemove: true
             }
         }
-    )
-    .then((data) => {
-        console.log(data[1].id);
-    })
+    );
+
+    console.log(`Output from container: ${containerOutput}`)
+    return containerOutput;
 }
 
 module.exports = {executeCode};
