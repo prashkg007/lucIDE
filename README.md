@@ -7,4 +7,4 @@ SNEAK PEAK ;)
 
 ![alt text](https://i.ibb.co/ZdtS91r/luc-IDE-dashboard.jpg)
 
-I know the UI is 🤮🤮🤮. That is also in pipeline.
+I know the UI is 🤮🤮🤮. If someone can help, that'd be great!
