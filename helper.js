@@ -1,17 +1,21 @@
 const fs = require('fs');
 const path = require('path');
+const shortid = require('shortid');
+const {executeCode} = require('./DockerHandler'); 
+
+shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-');
 
 const createDirectory = (directoryName) => {
-    fs.mkdirSync(path.join(__dirname, `${directoryName}`));
+    fs.mkdirSync(directoryName);
 };
 
 const writeCodeToFile = (directoryName, codeContent, codeInput) => {
-    fs.writeFileSync(path.join(__dirname, `${directoryName}`, `main.cpp`), codeContent);
-    fs.writeFileSync(path.join(__dirname, `${directoryName}`, `input.txt`), codeInput);
+    fs.writeFileSync(path.join(directoryName, `main.cpp`), codeContent);
+    fs.writeFileSync(path.join(directoryName, `input.txt`), codeInput);
 };
 
 const readOutput = (directoryName) => {
-    const outputFilePath = path.join(__dirname, `${directoryName}`, `output.txt`);
+    const outputFilePath = path.join(directoryName, `output.txt`);
     return new Promise((resolve, reject) => {
         fs.readFile(outputFilePath, (err, data) => {
             if(err)
@@ -23,11 +27,24 @@ const readOutput = (directoryName) => {
 };
 
 const removeDirectory = (directoryName) => {
-    fs.rmdir(path.join(__dirname, `${directoryName}`), {recursive: true}, (err) => {
+    fs.rmdir(directoryName, {recursive: true}, (err) => {
         if(err){
             console.log(`Error removing directory: ${directoryName}`);
         }
     });
 };
 
-module.exports = {createDirectory, writeCodeToFile, readOutput, removeDirectory};
+const runCodeReturnOutput = async (data) => {
+    const folderName = "a" + shortid.generate() + "a";
+    const folderPath = path.join(__dirname, `codes`, folderName);
+
+    createDirectory(folderPath);
+    writeCodeToFile(folderPath, data.codeContent  , data.codeInput);
+    const containerOutput = await executeCode(folderPath);
+    const codeOutput = await readOutput(folderPath);
+    removeDirectory(folderPath);
+
+    return codeOutput;
+}
+
+module.exports = {runCodeReturnOutput};

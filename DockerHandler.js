@@ -4,19 +4,24 @@ const path = require('path');
 const docker = new Docker();
 
 const executeCode = async (folderName) => {
-    const buffer = Buffer.alloc(1024);
+    let containerOutput = "";
 
-    const containerOutput = await docker.run(
-        'frolvlad/alpine-gxx',
-        ['/bin/sh','-c',`cd ${folderName}; g++ main.cpp -o main >& output.txt; ./main < input.txt >> output.txt`],
-        process.stdout,
-        {
-            HostConfig:{
-                Binds: [`${__dirname}/${folderName}:/${folderName}`],
-                AutoRemove: true
+    try{
+        containerOutput = await docker.run(
+            'frolvlad/alpine-gxx',
+            ['/bin/sh','-c',`cd code; g++ main.cpp -o main >& output.txt; ./main < input.txt >> output.txt`],
+            process.stdout,
+            {
+                HostConfig:{
+                    Binds: [`${folderName}:/code`],
+                    AutoRemove: true
+                }
             }
-        }
-    );
+        );
+    }
+    catch(e){
+        console.log(`error occured while running container: ${e}`);
+    }
 
     console.log(`Output from container: ${containerOutput}`)
     return containerOutput;

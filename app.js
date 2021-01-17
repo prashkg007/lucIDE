@@ -1,25 +1,19 @@
 const express = require('express');
 const app = express();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
 const path = require('path');
-const {createDirectory, writeCodeToFile, readOutput, removeDirectory} = require('./helper')
-const {executeCode} = require('./DockerHandler');
+const {runCodeReturnOutput} = require('./helper')
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 io.on('connection', (socket) => {
 
     socket.on('codeSubmitted', async (data)=>{
-        const fileName = 'newcode';
-        createDirectory(fileName);
-        writeCodeToFile(fileName, data.codeContent  , data.codeInput);
-        const containerOutput = await executeCode(fileName);
-        const codeOutput = await readOutput(fileName);
-        socket.emit('outputGenerated', {codeOutput: codeOutput});
-        removeDirectory(fileName);
+        const codeOutput = await runCodeReturnOutput(data);
+        socket.emit('outputGenerated', {codeOutput});
     });
 
     socket.on('disconnect', () => {
