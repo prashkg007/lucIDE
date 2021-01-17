@@ -1,7 +1,7 @@
 # LucIDE
 Online IDE using remote code execution on Docker containers.
 
-CAUTION: WORK IN PROGRESS. WILL HOST SOON. PLEASE WAIT...
+CAUTION: WORK IN PROGRESS...
 
 SNEAK PEAK ;)
 
