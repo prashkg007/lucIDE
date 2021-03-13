@@ -4,25 +4,36 @@
   margin: 0px;
 }
 
+body {
+  background-color: #E0E2E1;
+  font-family: 'Akaya Telivigala', cursive;
+}
+
+nav {
+  padding-left: 1rem;
+  background-color: #1976d2;
+}
+
 .outer-container{
   margin-top:10px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 70% 30%;
 }
 
 .container{
-  flex-basis:70%;
-  height: 600px;
+  height: 90vh;
+  width: 100%;
+  padding: 1rem;
 }
 
 .code-input-output{
- flex-basis: 25%;
- height: 600px;
- display: flex;
- margin-right: 25px;
- flex-direction: column;
- justify-content: space-around;
+  flex-basis: 25%;
+  height: 600px;
+  display: flex;
+  margin-right: 25px;
+  padding: 2rem;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 #editor{
@@ -30,12 +41,28 @@
   width: 100%;
 }
 
-.code-input{
-  flex-basis: 30%;
+.code-editor {
+  border-radius: 1rem;
 }
 
-.code-output{
-  flex-basis: 50%;
+.code-input textarea{
+  border: none;
+  border-radius: 1rem;
+  padding: .5rem;
+  outline: none;
+  background-color: white;
+}
+
+.code-output h5 {
+  color: #1976d2;
+}
+
+.code-output p{
+  margin-top: .5rem;
+  border: none;
+  border-radius: 1rem;
+  outline: none;
+  background-color: white;
 }
 
 .code-run{
@@ -58,4 +85,27 @@
 
 p, textarea{
   white-space: pre-wrap;
+}
+
+#submit-btn {
+  padding: 0.7rem 1.3rem;
+  color: white;
+  border: none;
+  outline: none;
+  background-color: #1e88e5;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 5px grey;
+}
+
+#submit-btn:hover {
+  background-color: #005cb2;
+}
+
+@media screen and (max-width: 800px) {
+  .outer-container{
+    margin-top:10px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 60% 20% 10%;
+  }
 }
