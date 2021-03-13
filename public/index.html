@@ -4,12 +4,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>lucIDE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
     <nav>
         <div class="nav-wrapper">
-          <a href="#" class="brand-logo center">LucIDE</a>
+          <a href="#" class="brand-logo">LucIDE</a>
         </div>
       </nav>
     <div class="outer-container">
@@ -20,18 +22,16 @@
         </div>
         <div class="code-input-output">
             <div class="code-input">
-                <b>INPUT:</b>
-                <textarea class="input-field" id="input-field" style="padding:2px"></textarea>
-            </div>
-            <div class="code-output">
-                <b>OUTPUT:</b>
-                <p class="output-field" id = "output-field" style="padding:2px">
-                </p>
+                <textarea class="input-field" id="input-field" placeholder="Input"></textarea>
             </div>
             <div class="code-run">
                 <form id="submit-code">
-                    <input type="submit" value="Execute">
+                    <input id="submit-btn" type="submit" value="Execute">
                 </form>
+            </div>
+            <div class="code-output">
+                <h5>Output</h5>
+                <p class="output-field" id="output-field"></p>
             </div>
         </div>
     </div>
